@@ -13,10 +13,12 @@
 
 #logo-img{
   height: 50px;
+  margin-left: 15px;
 }
 
 #about-link{
   color: black;
+  margin-right: 15px;
 }
 
 #main-container{
@@ -26,8 +28,40 @@
   border-color: #E0E0E0;
 }
 
+
 #artists-border{
   border-bottom-style: solid;
   border-bottom-width:1px;
   border-bottom-color: #E0E0E0;
+}
+
+.flexcontainer > ul{
+ display: -webkit-flex;
+   display: flex;
+   -webkit-align-items: center;
+   align-items: center;
+   -webkit-justify-content: center;
+   justify-content: center;
+   /* You can set flex-wrap and flex-direction individually */
+   -webkit-flex-direction: row;
+   flex-direction: row;
+   -webkit-flex-wrap: wrap;
+   flex-wrap: wrap;
+   /* Or do it all in one line with flex flow */
+   -webkit-flex-flow: row wrap;
+   flex-flow: row wrap;
+   /* tweak the where items line up on the row */
+   /* valid values are: flex-start, flex-end, space-between, space-around, stretch */
+   align-content: center;
+}
+
+.artist {
+  border-style: solid;
+  border-width:1px;
+  margin: 5px;
+  margin-top: 0px!important;
+  margin-left: 0px!important;
+  padding: 10px!important;
+  border-color: #E0E0E0;
+  width: 49%;
 }
