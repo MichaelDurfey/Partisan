@@ -34,7 +34,36 @@
   border-bottom-color: #E0E0E0;
 }
 
-.accordion {
+.card .card-reveal {
+ padding: 24px !important;
+    position: absolute !important;
+    background-color: #E32526 !important;
+    width: 100% !important;
+    overflow-y: 100;
+    left: 2% !important;
+    top: 170% !important;
+    height: 350px !important;
+    z-index: 5! important;
+}
+
+.card .card-content .card-title {
+line-height: 15px !important;
+margin-bottom: 0px !important;
+font-size: 12px !important;
+font-weight: 400!important;
+}
+
+.card .card-content {
+  padding: 8px;
+  
+}
+
+.material-icons {
+font-size: 12px!important;
+
+}
+
+.flexcontainer {
     display: -webkit-flex;
    display: flex;
    -webkit-align-items: center;
@@ -50,20 +79,19 @@
   align-content: center;
 }
 
-.coolapsible-header.active:nth-child(even) {
-    align-content: right!important;
+#artist {
+  overflow: visible !important;
 }
 
 .artist {
-  font-size: 11px;
+  font-size: 11px !important;
   border-style: solid;
   border-width:1px;
   margin: 5px;
   margin-top: 0px!important;
   margin-left: 0px!important;
   border-color: #E0E0E0;
-  width: 223px;
-  text-align: center;
+  width: 289px;
 }
 
 *, *:before, *:after {
