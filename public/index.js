@@ -50,28 +50,40 @@ let artistArray = ['ALO', 'AMADOU & MARIAM', 'ANGELIQUE KIDJO',
 
 
 let artistListUl = document.querySelector('.flexcontainer');
+
+
+         // <h2 class = "artistName">${artistName}</h2>
+
+//cee8eebeb4ff28b14cceee8e805b31b3
+let images = [];
+let imagesHTML = '';
+
 artistArray.forEach( (item) => { 
-let div = document.createElement('div');
-div.className = "card artist";
-div.id = "artist";
-div.innerHTML = `
-    <div class="card-image waves-effect waves-block waves-light cardStuff">
-    </div>
-    <div class="card-content cardStuff">
-      <span class="card-title activator grey-text text-darken-4 cardStuff">${item}<i class="material-icons right cardStuff">more_vert</i></span>
-    </div>
-    <div class="card-reveal cardStuff" id = "cardreveal">
-      <span class="card-title grey-text text-darken-4 cardStuff">${item}<i class="material-icons right cardStuff">close</i></span>
-      <p class = "cardStuff">Here is some more information about this product that is only revealed once clicked on.</p>
-    </div>
-  `
+  let encodedURI = encodeURIComponent(item)
+  let lastFMURL = `https://ws.audioscrobbler.com/2.0/?method=artist.getinfo&artist=${encodedURI}&api_key=cee8eebeb4ff28b14cceee8e805b31b3&format=json`
+  $.getJSON("/artistPhotos", lastFMURL, function(data){ 
+      let div = document.createElement('div');
+      let artistBio =  data.artist.bio.content;
+      let artistWikiLink = data.artist.bio.links.link.href;
+      let artistImages = data.artist.image[2]["#text"];
+      let artistName = data.artist.name;   
 
-
-    artistListUl.appendChild(div);
-
-});
-
-let children = artistListUl.children;
+      div.className = "card artist";
+      div.id = "artist";
+      div.innerHTML = `
+          <div class="card-image waves-effect waves-block waves-light cardStuff hoverable">
+          </div>
+          <div class="card-content cardStuff">
+            <span class="card-title activator grey-text text-darken-4 cardStuff">${item}<i class="material-icons right cardStuff">more_vert</i></span>
+          </div>
+          <div class="card-reveal cardStuff center-align" id = "cardreveal">
+            <span class="card-title grey-text text-darken-4 cardStuff">${item}<i class="material-icons right cardStuff">close</i></span>
+            <img class = "cardImages img-responsive cardStuff" id = "cardImage" src = "${artistImages}" alt = "Album image not found :("></img>
+            <p class = "cardStuff">Here is some more information about this product that is only revealed once clicked on.</p>
+          </div>
+      `
+      artistListUl.appendChild(div);
+      let children = artistListUl.children;
 for (item of children){
   item.addEventListener('mouseout', function(event){ 
     if (event["toElement"].className.includes("cardStuff") === false && event["toElement"].className !== null) {
@@ -79,35 +91,31 @@ for (item of children){
     }
   })
 }
-         // <h2 class = "artistName">${artistName}</h2>
 
-//cee8eebeb4ff28b14cceee8e805b31b3
-let images = "";
+images.push(`${artistImages}`)
 
-  artistArray.forEach(function(item) { 
-    let encodedURI = encodeURIComponent(item)
-    let lastFMURL = `https://ws.audioscrobbler.com/2.0/?method=artist.getinfo&artist=${encodedURI}&api_key=cee8eebeb4ff28b14cceee8e805b31b3&format=json`
-    $.getJSON("/artistPhotos", lastFMURL, function(data){ 
+for (let i=0;i<images.length;i++){
+  let initialVal = i;
+  let endVal = initialVal + 2;
+    imagesHTML += `
+      <div class = "image text-center animate flipInY" id = "image">
+        <img class = "artistImages img-responsive" id = "artistImages" src = "${images[i]}" alt = "Album image not found :("></img> `
+       `${images[i] ? imagesHTML += `<img class = "artistImages img-responsive" id = "artistImages" src = "${images[i]}" alt = "${artistName}not found :(">` :
+        imagesHTML += `</img>`}
+        <div class = "imageFace1"></div>
+          <div class = "imageFace2">
+          </div>
+      </div>'
+      }
+    `
+    if(endVal) break;
+}
+    $('#artistImagesDiv').html(`${imagesHTML}`);
+  }) // End getJSON 
+}); // End ArtistArray
 
-      let artistImages = data.artist.image[2]["#text"];
-      let artistName = data.artist.name;
+//Put info from artist images into a new data set
+//Display only 12 of those at a time and transition in new images randomly in different places
+//Make sure same image isn't displayed twice
 
-      console.log(artistImages)
-
-    images += `
-
-    <div class = "image text-center" id = "image">
-      <img class = "artistImages img-responsive" id = "artistImages" src = "${artistImages}" alt = "Album image not found :("></img>
-        <div class = "imageFace">
-        </div>
-    </div>
-          `
-    console.log(data)
-    $('#artistImagesDiv').html(`${images}`);
-
-    })
-  });
-
-
-
-  })
+});

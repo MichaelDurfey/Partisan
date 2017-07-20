@@ -63,6 +63,17 @@ font-size: 12px!important;
 
 }
 
+#artistImagesDiv {
+  display: flex;
+  align-items: center;
+  flex-flow: row wrap;
+  justify-content: center;
+}
+
+.cardImages {
+  padding: 15px;
+}
+
 .flexcontainer {
     display: -webkit-flex;
    display: flex;
