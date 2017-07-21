@@ -1,3 +1,9 @@
+@import url('https://fonts.googleapis.com/css?family=Aldrich|Michroma|Prompt');
+
+/*font-family: 'Prompt', sans-serif;
+font-family: 'Aldrich', sans-serif;
+font-family: 'Michroma', sans-serif;*/
+
 #logo-container{
   font-color: black;
 
@@ -26,6 +32,14 @@
   border-width:1px;
   margin: 10px;
   border-color: #E0E0E0;
+}
+
+.header {
+  /*font-family: 'Prompt', sans-serif;*/
+  font-family: 'Aldrich', sans-serif;
+  text-align: center;
+  margin-bottom: 1rem!important;
+/*font-family: 'Michroma', sans-serif;*/
 }
 
 #artists-border{
@@ -102,7 +116,7 @@ font-size: 12px!important;
   margin-top: 0px!important;
   margin-left: 0px!important;
   border-color: #E0E0E0;
-  width: 289px;
+  width: 49%;
 }
 
 *, *:before, *:after {

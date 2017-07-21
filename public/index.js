@@ -50,22 +50,22 @@ let artistArray = ['ALO', 'AMADOU & MARIAM', 'ANGELIQUE KIDJO',
 
 
 let artistListUl = document.querySelector('.flexcontainer');
-
+   let counter = 0;  
 
          // <h2 class = "artistName">${artistName}</h2>
 
 //cee8eebeb4ff28b14cceee8e805b31b3
-let images = [];
+const images = [];
 let imagesHTML = '';
 
-artistArray.forEach( (item) => { 
+!function(){artistArray.forEach( (item) => { 
   let encodedURI = encodeURIComponent(item)
   let lastFMURL = `https://ws.audioscrobbler.com/2.0/?method=artist.getinfo&artist=${encodedURI}&api_key=cee8eebeb4ff28b14cceee8e805b31b3&format=json`
   $.getJSON("/artistPhotos", lastFMURL, function(data){ 
       let div = document.createElement('div');
       let artistBio =  data.artist.bio.content;
       let artistWikiLink = data.artist.bio.links.link.href;
-      let artistImages = data.artist.image[2]["#text"];
+      const artistImages = data.artist.image[2]["#text"];
       let artistName = data.artist.name;   
 
       div.className = "card artist";
@@ -84,35 +84,29 @@ artistArray.forEach( (item) => {
       `
       artistListUl.appendChild(div);
       let children = artistListUl.children;
-for (item of children){
-  item.addEventListener('mouseout', function(event){ 
-    if (event["toElement"].className.includes("cardStuff") === false && event["toElement"].className !== null) {
-      $(".card-reveal").fadeOut(1000);
-    }
-  })
-}
-
-images.push(`${artistImages}`)
-
-for (let i=0;i<images.length;i++){
-  let initialVal = i;
-  let endVal = initialVal + 2;
-    imagesHTML += `
-      <div class = "image text-center animate flipInY" id = "image">
-        <img class = "artistImages img-responsive" id = "artistImages" src = "${images[i]}" alt = "Album image not found :("></img> `
-       `${images[i] ? imagesHTML += `<img class = "artistImages img-responsive" id = "artistImages" src = "${images[i]}" alt = "${artistName}not found :(">` :
-        imagesHTML += `</img>`}
-        <div class = "imageFace1"></div>
-          <div class = "imageFace2">
+    for (item of children){
+      item.addEventListener('mouseout', function(event){ 
+        if (event["toElement"].className.includes("cardStuff") === false) {
+          $(".card-reveal").fadeOut(1000);
+        }
+      })
+    } //End event listener loop
+//take 3 images on each pass and insert them into a div.      
+        imagesHTML = `
+          <div class = "image text-center imageFace${counter}" id = "imageFace${counter}">
+            <div class = "imageInnerFace" id = "imageInnerFace">
+              <img class = "artistImages img-responsive" id = "artistImages" src = '${artistImages}' alt = "${artistName}not found :("></img>
+            </div> 
           </div>
-      </div>'
-      }
-    `
-    if(endVal) break;
-}
-    $('#artistImagesDiv').html(`${imagesHTML}`);
+        `;        
+        //while iterating over images array, push one div filled with 3 images at each 3rd index in the array
+        images.push(imagesHTML);
+        counter += 1;
   }) // End getJSON 
-}); // End ArtistArray
+  // console.log(Array.of(imagesHTML))
+}) //EndArtistArray For Each Function
+}(); // End Artist Array For Each function
+// appendImages(images, index)
 
 //Put info from artist images into a new data set
 //Display only 12 of those at a time and transition in new images randomly in different places
