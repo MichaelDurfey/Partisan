@@ -47,28 +47,61 @@ let artistArray = ['ALO', 'AMADOU & MARIAM', 'ANGELIQUE KIDJO',
   'ZACH GILL',
   'ZAP MAMA']
 
+let images = [];
+let imagesHTML = '';
+let itemsProcessed = 0;
+let imageDisplaySet = [];
+let displayedImagesIdx = [];
+let newImages = [];
+let newImagesIdx = [];
 
+const artistListUl = document.getElementById('flexcontainer');
+let counter = 0;  
 
-let artistListUl = document.querySelector('.flexcontainer');
-   let counter = 0;  
+    function collectImages(arr){
+      do {
+        let randomNumber = Math.floor(Math.random() * 45);
+        if (displayedImagesIdx.indexOf(randomNumber) == -1) {
+          displayedImagesIdx.push(randomNumber);
+          imageDisplaySet.push(arr[randomNumber]);
+        }
+      } while (displayedImagesIdx.length < 18);
+      console.log(displayedImagesIdx)
 
-         // <h2 class = "artistName">${artistName}</h2>
+      $('#artistImagesDiv').html(imageDisplaySet);
+      $('#artistImagesDiv').fadeIn(3000)
+      let changeImagesTimeOut = window.setTimeout(() => {changeImages(imageDisplaySet)}, 3000) 
+    }
+
+    let changeImages = (imageDisplaySet) => {
+      let counter = 0;
+      do {
+        let randomNumber = Math.floor(Math.random() * 45);
+        let randomNumber2 = Math.floor(Math.random() * 45);
+        if (displayedImagesIdx.indexOf(randomNumber) != -1){
+          let endIndx = randomNumber + 1
+          let id = `'#imageFace${randomNumber}'`
+          displayedImagesIdx.fill(randomNumber2, randomNumber, endIndx)
+          counter++;
+        }
+      } while (counter < 10);
+      $('#imageFace21').replaceWith(images[randomNumber2])
+      console.log(displayedImagesIdx)
+    }
 
 //cee8eebeb4ff28b14cceee8e805b31b3
-const images = [];
-let imagesHTML = '';
 
-!function(){artistArray.forEach( (item) => { 
+artistArray.forEach( (item, index) => { 
+  let div = document.createElement('div');
   let encodedURI = encodeURIComponent(item)
   let lastFMURL = `https://ws.audioscrobbler.com/2.0/?method=artist.getinfo&artist=${encodedURI}&api_key=cee8eebeb4ff28b14cceee8e805b31b3&format=json`
   $.getJSON("/artistPhotos", lastFMURL, function(data){ 
-      let div = document.createElement('div');
       let artistBio =  data.artist.bio.content;
       let artistWikiLink = data.artist.bio.links.link.href;
-      const artistImages = data.artist.image[2]["#text"];
+      let artistImages = data.artist.image[2]["#text"];
       let artistName = data.artist.name;   
 
-      div.className = "card artist";
+      div.className = "animated fadeIn card artist";
       div.id = "artist";
       div.innerHTML = `
           <div class="card-image waves-effect waves-block waves-light cardStuff hoverable">
@@ -79,37 +112,42 @@ let imagesHTML = '';
           <div class="card-reveal cardStuff center-align" id = "cardreveal">
             <span class="card-title grey-text text-darken-4 cardStuff">${item}<i class="material-icons right cardStuff">close</i></span>
             <img class = "cardImages img-responsive cardStuff" id = "cardImage" src = "${artistImages}" alt = "Album image not found :("></img>
-            <p class = "cardStuff">Here is some more information about this product that is only revealed once clicked on.</p>
+            <p class = "cardStuff">${artistBio}</p>
           </div>
       `
-      artistListUl.appendChild(div);
-      let children = artistListUl.children;
-    for (item of children){
-      item.addEventListener('mouseout', function(event){ 
-        if (event["toElement"].className.includes("cardStuff") === false) {
-          $(".card-reveal").fadeOut(1000);
-        }
-      })
-    } //End event listener loop
 //take 3 images on each pass and insert them into a div.      
         imagesHTML = `
-          <div class = "image text-center imageFace${counter}" id = "imageFace${counter}">
-            <div class = "imageInnerFace" id = "imageInnerFace">
-              <img class = "artistImages img-responsive" id = "artistImages" src = '${artistImages}' alt = "${artistName}not found :("></img>
+          <div class = ' animated fadeIn image text-center imageFace${counter}' id = 'imageFace${counter}'>
+            <div class = 'imageInnerFace' id = 'imageInnerFace'>
+              <img class = 'artistImages img-responsive' id = 'artistImages' src = '${artistImages}' alt = '${artistName}not found :('></img>
             </div> 
           </div>
-        `;        
+        `;    
         //while iterating over images array, push one div filled with 3 images at each 3rd index in the array
         images.push(imagesHTML);
         counter += 1;
+  }).done( () => {
+      itemsProcessed++;
+      console.log("success")
+    if (itemsProcessed === artistArray.length) {
+      collectImages(images);
+    }
   }) // End getJSON 
+      artistListUl.appendChild(div);
+      let children = artistListUl.children;
+      for (i of children){
+        i.addEventListener('mouseout', function(event){ 
+          if (event["toElement"].className.includes("cardStuff") === false) {
+            $(".card-reveal").fadeOut(1000);
+          }
+        })
+      } //End event listener loop
+
   // console.log(Array.of(imagesHTML))
 }) //EndArtistArray For Each Function
-}(); // End Artist Array For Each function
-// appendImages(images, index)
 
 //Put info from artist images into a new data set
 //Display only 12 of those at a time and transition in new images randomly in different places
 //Make sure same image isn't displayed twice
 
-});
+}); // ----DOCUMENT.READY----
