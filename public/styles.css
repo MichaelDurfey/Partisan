@@ -79,9 +79,10 @@ font-size: 12px!important;
 
 #artistImagesDiv {
   display: flex;
-  align-items: center;
   flex-flow: row wrap;
   justify-content: center;
+  align-content: center;
+  align-items: center;
 }
 
 .cardImages {
@@ -108,6 +109,82 @@ font-size: 12px!important;
   overflow: visible !important;
 }
 
+.image {
+  overflow: hidden;
+  position: relative;
+  top: 0;
+  left: 0;
+  padding-left: 0!important;
+  padding-right: 0!important;
+  margin: 0;
+  height: 174px;
+  }
+
+  .imageInnerFace {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    overflow: hidden;
+    top: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.8);
+    opacity: 0;
+    transition: 1000ms;
+  }
+
+  .imageInnerFace > h2 {
+    text-transform: uppercase;
+    text-align: center;
+    font-weight: 400;
+    position: relative;
+    font-family: 'Raleway';
+    font-size: 100%;
+    padding: 20%;
+    width: 100%;
+    background: transparent;
+    -ms-transform: rotate(360deg);
+    transform: rotate(360deg);
+    transition: 600ms;
+    width: 100%;
+    position: absolute;
+    color: rgba(244, 244, 244, 1)!important;
+    font-size: 12px!important;
+  }
+
+  .imageInnerFace html {
+    line-height: 0!important;
+  }
+
+  .image img {
+    transition: 1s;
+  }
+
+ .image:hover .imageInnerFace {
+    opacity: .9;
+    transition-delay: 0;
+    cursor: pointer;
+  }
+
+ .image:hover img {
+    transition-delay: 0;
+  }
+
+ .image:hover h2 {
+    opacity: 1;
+    -ms-transform: scale(1.5);
+    transform: scale(1.5);
+    transition-delay: .1s;
+  }
+
+  .image:hover {
+        /*width: 120%;*/
+   transform: scale(1.2);
+   -ms-transform: scale(1.2);
+   transition: .6s;
+   z-index: 1;
+   border-radius: 10%;
+  }
+
 .artist {
   font-size: 11px !important;
   border-style: solid;
@@ -117,6 +194,10 @@ font-size: 12px!important;
   margin-left: 0px!important;
   border-color: #E0E0E0;
   width: 49%;
+}
+
+.row {
+  display: flex;
 }
 
 *, *:before, *:after {

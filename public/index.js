@@ -118,8 +118,9 @@ artistArray.forEach( (item, index) => {
 //take 3 images on each pass and insert them into a div.      
         imagesHTML = `
           <div class = ' animated fadeIn image text-center imageFace${counter}' id = 'imageFace${counter}'>
+            <img class = 'artistImages img-responsive' id = 'artistImages' src = '${artistImages}' alt = '${artistName}not found :('></img>
             <div class = 'imageInnerFace' id = 'imageInnerFace'>
-              <img class = 'artistImages img-responsive' id = 'artistImages' src = '${artistImages}' alt = '${artistName}not found :('></img>
+            <h2>${artistName}</h2>
             </div> 
           </div>
         `;    
